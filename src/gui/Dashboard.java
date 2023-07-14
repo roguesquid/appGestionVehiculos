@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import gui.views.Agregar;
+import gui.views.Eliminar;
 import gui.views.Principal;
 
 import java.awt.Color;
@@ -20,6 +21,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Dashboard extends JFrame {
 
@@ -105,6 +108,32 @@ public class Dashboard extends JFrame {
 		content.setBounds(325, 0, 1595, 972);
 		initContent(content);
 		contentPane.add(content);
+		
+		botonInicio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showPanel(new Principal(), content);
+			}
+		});
+		botonAgregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showPanel(new Agregar(), content);
+			}
+		});
+		botonModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//showPanel(new Modificar(), content);
+			}
+		});
+		botonEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showPanel(new Eliminar(), content);
+			}
+		});
+		botonListar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//showPanel(new Listar(), content);
+			}
+		});
 	}
 	
     /**
@@ -113,12 +142,29 @@ public class Dashboard extends JFrame {
      * @param content El panel donde se mostrará el contenido principal.
      */
     private void initContent(JPanel content) {
-        Agregar p1 = new Agregar();
+        Principal p1 = new Principal();
         p1.setSize(1595, 972);
         p1.setLocation(0, 0);
         content.setLayout(new BorderLayout());
         content.removeAll();
         content.add(p1, BorderLayout.CENTER);
+        content.revalidate();
+        content.repaint();
+    }
+    
+    /**
+     * Abre el panel seleccionado.
+     *
+     * @param panel El panel que se mostrara.
+     * @param content El panel donde se mostrará el contenido principal.
+     */
+    private void showPanel(JPanel p, JPanel content) {
+
+        p.setSize(1595, 972);
+        p.setLocation(0, 0);
+        content.setLayout(new BorderLayout());
+        content.removeAll();
+        content.add(p, BorderLayout.CENTER);
         content.revalidate();
         content.repaint();
     }

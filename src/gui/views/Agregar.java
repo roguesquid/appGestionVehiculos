@@ -5,16 +5,27 @@ import java.awt.Font;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+
+import logica.ListaVehiculos;
+import logica.Vehiculos;
+import logica.main;
+
 import javax.swing.JSpinner;
 import javax.swing.JButton;
 import javax.swing.SpinnerNumberModel;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Agregar extends JPanel {
+	private static ListaVehiculos lista = main.lista;
 	private JTextField textFieldNombre;
 	private JTextField textFieldNombreIngles;
 	private JTextField textFieldConductores;
@@ -24,6 +35,7 @@ public class Agregar extends JPanel {
 	 * Create the panel.
 	 */
 	public Agregar() {
+		
 		setBackground(new Color(255, 255, 255));
 		setLayout(null);
 		
@@ -103,28 +115,28 @@ public class Agregar extends JPanel {
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, "Perezoso", "Monster Truck 1", "Todo Terreno", new Integer(140)},
-				{null, "Perezoso", "Monster Truck 2", "Todo Terreno", new Integer(120)},
-				{null, "Perezoso", "Monster Truck 3", "Todo Terreno", new Integer(110)},
-				{null, "Perezoso", "Monster Truck 4", "Todo Terreno", new Integer(100)},
-				{null, "Perezoso", "Monster Truck 5", "Todo Terreno", new Integer(80)},
-				{null, "Perezoso", "Normales", "Normales", new Integer(120)},
-				{null, "Crucero", "Normales", "Normales", new Integer(140)},
-				{null, "El super ferrari", "Pegado al piso", "Anti coleo", new Integer(160)},
-				{null, "Delorean", "Pegado al piso", "Anti coleo", new Integer(180)},
+				{new Integer(1), "Perezoso", "Monster Truck 1", "Todo Terreno", new Integer(140)},
+				{new Integer(2), "Perezoso", "Monster Truck 2", "Todo Terreno", new Integer(120)},
+				{new Integer(3), "Perezoso", "Monster Truck 3", "Todo Terreno", new Integer(110)},
+				{new Integer(4), "Perezoso", "Monster Truck 4", "Todo Terreno", new Integer(100)},
+				{new Integer(5), "Perezoso", "Monster Truck 5", "Todo Terreno", new Integer(80)},
+				{new Integer(6), "Perezoso", "Normales", "Normales", new Integer(120)},
+				{new Integer(7), "Crucero", "Normales", "Normales", new Integer(140)},
+				{new Integer(8), "El super ferrari", "Pegado al piso", "Anti coleo", new Integer(160)},
+				{new Integer(9), "Delorean", "Pegado al piso", "Anti coleo", new Integer(180)},
 			},
 			new String[] {
-				"Seleccione", "Velocidad", "Tama\u00F1o Caucho", "Tipo caucho", "Velocidad Km/h"
+				"Tipo", "Velocidad", "Tama\u00F1o Caucho", "Tipo caucho", "Velocidad Km/h"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				Boolean.class, Object.class, String.class, String.class, Integer.class
+				Integer.class, Object.class, String.class, String.class, Integer.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 			boolean[] columnEditables = new boolean[] {
-				true, false, false, false, false
+				false, false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -181,5 +193,91 @@ public class Agregar extends JPanel {
 		btnAgregar.setEnabled(false);
 		btnAgregar.setBounds(956, 500, 200, 40);
 		background.add(btnAgregar);
+		
+		JSpinner spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(1, 1, 9, 1));
+		spinner.setBounds(253, 776, 58, 22);
+		background.add(spinner);
+		
+		JLabel lblSeleccioneElTipo = new JLabel("Seleccione el tipo");
+		lblSeleccioneElTipo.setFont(new Font("Public Sans Light", Font.PLAIN, 20));
+		lblSeleccioneElTipo.setBounds(64, 777, 167, 16);
+		background.add(lblSeleccioneElTipo);
+		
+		textFieldNombre.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				verificaciones(textFieldNombre, textFieldNombreIngles, textFieldConductores, btnAgregar);
+			}
+		});
+		textFieldNombreIngles.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				verificaciones(textFieldNombre, textFieldNombreIngles, textFieldConductores, btnAgregar);
+			}
+		});
+		textFieldConductores.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				verificaciones(textFieldNombre, textFieldNombreIngles, textFieldConductores, btnAgregar);
+			}
+		});
+		btnAgregar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				agregar(textFieldNombre, textFieldNombreIngles, textFieldConductores, spinner, table, spinnerLiquidos, spinnerObstaculos, spinnerBombas);
+			}
+		});
 	}
+	
+	public void mostrarVehiculoOptionPane(Vehiculos vehiculo) {
+		String mensaje = "Vehiculo Agregado satisfactoriamente " +
+				"\n\nNombre: " + vehiculo.getNombre() +
+                "\nNombre en Inglés: " + vehiculo.getNombreIngles() +
+                "\nNombre Conductores: " + vehiculo.getNombreConductores() +
+                "\nTamaño Caucho: " + vehiculo.getTamanoCaucho() +
+                "\nTipo Caucho: " + vehiculo.getTipoDeCaucho() +
+                "\nVelocidad: " + vehiculo.getVelocidad() +
+                "\nVelocidad (String): " + vehiculo.getVelocidadString() +
+                "\nResistencia a Obstáculos: " + vehiculo.getResistenciaObstaculos() +
+                "\nResistencia a Líquidos: " + vehiculo.getResistenciaLiquido() +
+                "\nResistencia a Explosivos: " + vehiculo.getResistenciaExplosivos();
+
+		JOptionPane.showMessageDialog(null, mensaje, "Detalles del Vehículo", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	private void verificaciones(JTextField textFieldNombre, JTextField textFieldNombreIngles, JTextField textFieldConductores, JButton button) {
+		String nombre = textFieldNombre.getText();
+		String nombreIngles = textFieldNombreIngles.getText();
+		String conductores = textFieldConductores.getText();
+		
+		if(lista.nombreValido(nombre) && lista.nombreInglesValido(nombreIngles) && lista.nombreConductoresValido(conductores)) {
+			button.setEnabled(true);
+		}
+	}
+	
+	private void agregar(JTextField textFieldNombre, JTextField textFieldNombreIngles, JTextField textFieldConductores, JSpinner spinnerCaracteristicas, JTable table, JSpinner spinnerLiquidos, JSpinner spinnerObstaculos, JSpinner spinnerBombas) {
+		String nombre = textFieldNombre.getText();
+		String nombreIngles = textFieldNombreIngles.getText();
+		String conductores = textFieldConductores.getText();		
+		int JSpinnerCaracteristicasValue = (int) spinnerCaracteristicas.getValue()-1;
+		String tamanoCaucho = (String) table.getModel().getValueAt(JSpinnerCaracteristicasValue, 2);
+		String tipoCaucho = (String) table.getModel().getValueAt(JSpinnerCaracteristicasValue, 3);
+		int velocidad = (int) table.getModel().getValueAt(JSpinnerCaracteristicasValue, 4);
+		String velocidadString = (String) table.getModel().getValueAt(JSpinnerCaracteristicasValue, 1);
+		int resistenciaLiquidos = (int) spinnerLiquidos.getValue();
+		int resistenciaBombas = (int) spinnerBombas.getValue();
+		int resistenciaObstaculos = (int) spinnerObstaculos.getValue();
+		
+		Vehiculos vehiculo = new Vehiculos(nombre,nombreIngles,conductores,tamanoCaucho,tipoCaucho,velocidad,velocidadString, resistenciaObstaculos, resistenciaLiquidos, resistenciaBombas);
+		lista.agregarALista(vehiculo);
+		
+		mostrarVehiculoOptionPane(vehiculo);
+		
+		textFieldNombre.setText("");
+		textFieldNombreIngles.setText("");
+		textFieldConductores.setText("");
+		
+	} 
+	
 }
