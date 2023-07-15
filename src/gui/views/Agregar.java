@@ -225,7 +225,13 @@ public class Agregar extends JPanel {
 		btnAgregar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				agregar(textFieldNombre, textFieldNombreIngles, textFieldConductores, spinner, table, spinnerLiquidos, spinnerObstaculos, spinnerBombas);
+				if(lista.nombreValido(textFieldNombre.getText())) {
+					agregar(textFieldNombre, textFieldNombreIngles, textFieldConductores, spinner, table, spinnerLiquidos, spinnerObstaculos, spinnerBombas);					
+				}  else if(lista.strignVacio(textFieldNombre.getText())) {
+					JOptionPane.showMessageDialog(null, "No se pudo crear, no se puede crear un vehiculo sin nombre", "Error", JOptionPane.ERROR_MESSAGE);
+				} else if(lista.existeNombre(textFieldNombre.getText())) {
+					JOptionPane.showMessageDialog(null, "No se pudo crear, ya hay un vehículo con el mismo nombre", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 	}
@@ -246,7 +252,7 @@ public class Agregar extends JPanel {
 		JOptionPane.showMessageDialog(null, mensaje, "Detalles del Vehículo", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
-	private void verificaciones(JTextField textFieldNombre, JTextField textFieldNombreIngles, JTextField textFieldConductores, JButton button) {
+	private boolean verificaciones(JTextField textFieldNombre, JTextField textFieldNombreIngles, JTextField textFieldConductores, JButton button) {
 		String nombre = textFieldNombre.getText();
 		String nombreIngles = textFieldNombreIngles.getText();
 		String conductores = textFieldConductores.getText();
@@ -254,6 +260,7 @@ public class Agregar extends JPanel {
 		if(lista.nombreValido(nombre) && lista.nombreInglesValido(nombreIngles) && lista.nombreConductoresValido(conductores)) {
 			button.setEnabled(true);
 		}
+		return false;
 	}
 	
 	private void agregar(JTextField textFieldNombre, JTextField textFieldNombreIngles, JTextField textFieldConductores, JSpinner spinnerCaracteristicas, JTable table, JSpinner spinnerLiquidos, JSpinner spinnerObstaculos, JSpinner spinnerBombas) {

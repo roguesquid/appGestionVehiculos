@@ -7,7 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import gui.views.Agregar;
+import gui.views.Consultar;
 import gui.views.Eliminar;
+import gui.views.Listar;
 import gui.views.Principal;
 
 import java.awt.Color;
@@ -103,6 +105,19 @@ public class Dashboard extends JFrame {
 		botonesMenu(botonListar);
 		menu.add(botonListar);
 		
+		JButton btnSalir = new JButton("Salir");
+		btnSalir.setIcon(new ImageIcon("./src/resources/salirIcon.png"));
+		btnSalir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//GUARDAR VEHICULOS
+				System.exit(0);
+			}
+		});
+		btnSalir.setBounds(0, 918, 325, 54);
+		botonesMenu(btnSalir);
+		menu.add(btnSalir);
+		
 		JPanel content = new JPanel();
 		content.setBackground(new Color(255, 255, 255));
 		content.setBounds(325, 0, 1595, 972);
@@ -129,9 +144,15 @@ public class Dashboard extends JFrame {
 				showPanel(new Eliminar(), content);
 			}
 		});
+		botonConsultar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				showPanel(new Consultar(), content);
+			}
+		});
 		botonListar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//showPanel(new Listar(), content);
+				showPanel(new Listar(), content);
 			}
 		});
 	}

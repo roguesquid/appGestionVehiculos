@@ -64,7 +64,6 @@ public class ListaVehiculos {
 	
 	/**
 	 * Elimina un vehículo de la lista según su nombre.
-	 * Si hay varios vehículos con el mismo nombre, se elimina el primero que se encuentra.
 	 * 
 	 * @param nombre el nombre del vehículo a eliminar.
 	 */
