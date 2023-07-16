@@ -2,6 +2,7 @@ package logica;
 
 public class Vehiculos {
 	
+	private String rutaIcono;
 	private String nombre;
 	private String nombreIngles;
 	private String nombreConductores;
@@ -34,7 +35,8 @@ public class Vehiculos {
 	 * @param resistenciaLiquido la resistencia a líquidos del vehículo.
 	 * @param resistenciaExplosivos la resistencia a explosivos del vehículo.
 	 */
-	public Vehiculos(String nombre, String nombreIngles, String nombreConductores, String tamanoCaucho, String tipoCaucho, int velocidad, String velocidadString, int resistenciaObstaculos, int resistenciaLiquido, int resistenciaExplosivos) {
+	public Vehiculos(String rutaIcono, String nombre, String nombreIngles, String nombreConductores, String tamanoCaucho, String tipoCaucho, int velocidad, String velocidadString, int resistenciaObstaculos, int resistenciaLiquido, int resistenciaExplosivos) {
+		this.rutaIcono = rutaIcono;
 		this.nombre = nombre;
 		this.nombreIngles = nombreIngles;
 		this.nombreConductores = nombreConductores;
@@ -174,5 +176,13 @@ public class Vehiculos {
 
 	public void setVelocidadString(String velocidadString) {
 		this.velocidadString = velocidadString;
+	}
+
+	public String getRutaIcono() {
+		return rutaIcono;
+	}
+
+	public void setRutaIcono(String rutaIcono) {
+		this.rutaIcono = rutaIcono;
 	}
 }

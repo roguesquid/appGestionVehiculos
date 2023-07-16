@@ -10,6 +10,7 @@ import gui.views.Agregar;
 import gui.views.Consultar;
 import gui.views.Eliminar;
 import gui.views.Listar;
+import gui.views.Modificar;
 import gui.views.Principal;
 
 import java.awt.Color;
@@ -136,7 +137,7 @@ public class Dashboard extends JFrame {
 		});
 		botonModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//showPanel(new Modificar(), content);
+				showPanel(new Modificar(), content);
 			}
 		});
 		botonEliminar.addActionListener(new ActionListener() {
